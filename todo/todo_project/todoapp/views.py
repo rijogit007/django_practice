@@ -38,6 +38,11 @@ def mark_as_done(request,id):
     
     # return redirect('/')   
 
+def mark_as_undone(request,id):
+    incomplete=get_object_or_404(Task,id=id)
+    incomplete.is_completed=False
+    incomplete.save()
+    return redirect('/')
 
 
 def delete_task(request,id):
@@ -46,3 +51,35 @@ def delete_task(request,id):
     return redirect('/')
     
 
+def delete_completed_task(request,id):
+    
+    completed_task=get_object_or_404(Task,id=id)
+    
+    completed_task.delete()
+    
+    return redirect('/')
+
+
+def edit_task(request,id):
+    task=get_object_or_404(Task,id=id)
+    
+    if request.method=='POST':
+        update_taskname=request.POST.get('taskname')
+        
+        
+        
+        
+        task.taskname=update_taskname
+        task.save()
+       
+        return redirect('/')
+    context={
+            
+           "task":task
+            
+        }
+    return render(request,'edit_todo.html',context)    
+        
+        
+        
+        
