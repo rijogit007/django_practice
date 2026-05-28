@@ -36,68 +36,70 @@
                     <h2 class="text-center mb-4">
                         📝 Todo App
                     </h2>
-
+                     <form action="{% url 'add-task'  %}" method="POST" >  
+                      {% csrf_token %}  
                     <!-- Add Task -->
                     <div class="mb-4">
                         <label class="form-label fw-bold">
                             Add New Task
                         </label>
-
+                         
                         <div class="input-group">
                             <input
                                 type="text"
                                 class="form-control"
                                 placeholder="Enter task..."
+                                name="taskname"
+                                required
                             >
                             <button class="btn btn-primary">
                                 Add Task
                             </button>
                         </div>
                     </div>
-
+                </form>  
+                        
                     <!-- Task List -->
                     <h4 class="mb-3">
                         Pending Tasks
                     </h4>
-
+                    {% for task in task_list %}
                     <ul class="list-group mb-4">
 
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Learn Django
+                            {{ task.taskname }}{{task.id}}
                             <div>
-                                <button class="btn btn-success btn-sm">
-                                    Complete
+                                <button  class="btn btn-success btn-sm">
+                                    <a href="{% url 'mark_as_done' task.id %}">
+                                    mark as done
+                                    </a>
                                 </button>
-                                <button class="btn btn-danger btn-sm">
+                                <button href="" class="btn btn-danger btn-sm">
                                     Delete
                                 </button>
                             </div>
                         </li>
 
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Build React Project
-                            <div>
-                                <button class="btn btn-success btn-sm">
-                                    Complete
-                                </button>
-                                <button class="btn btn-danger btn-sm">
-                                    Delete
-                                </button>
-                            </div>
-                        </li>
+                       
 
                     </ul>
+                    {% endfor %}
+
+
+
+
 
                     <!-- Completed Tasks -->
+                     
                     <h4 class="mb-3">
                         Completed Tasks
                     </h4>
-
+                    {% for task in completed_task  %}
                     <ul class="list-group">
 
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <span class="completed-task">
-                                Setup VS Code
+                                {{task.taskname}}
                             </span>
 
                             <button class="btn btn-danger btn-sm">
@@ -105,17 +107,10 @@
                             </button>
                         </li>
 
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span class="completed-task">
-                                Install Python
-                            </span>
-
-                            <button class="btn btn-danger btn-sm">
-                                Delete
-                            </button>
-                        </li>
+                        
 
                     </ul>
+                {% endfor %}
 
                 </div>
             </div>
